@@ -1,0 +1,32 @@
+name: Lint and Format Python Code
+
+on:
+  push:
+    branches:
+      - main
+      - b1
+      - b2 
+  pull_request:
+    branches:
+      - main
+      - b1
+      - b2
+  workflow_dispatch:
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+        pip install -r requirements.txt
+    - name: Run isort
+      run: isort *.py
